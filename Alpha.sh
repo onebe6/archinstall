@@ -10,7 +10,7 @@ lsblk -f
 
 read -p "which partition is your main partition? (exemple: /dev/sda1)" PARTITION
 
-mksf.ext4 $PARTITION
+mkfs.ext4 $PARTITION
 
 mount $PARTITON /mnt
 
