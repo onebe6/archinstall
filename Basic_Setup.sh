@@ -9,7 +9,15 @@ echo "--------------------------------------"
 #if [[ -d "/sys/firmware/efi" ]]; then
 #    grub-install --efi-directory=/boot ${DISK}
 #fi
-grub-install /dev/sda
+
+read -p "which is your boot drive? (exemple: /dev/sda) " B_DRIVE
+
+if [[ -d "/sys/firmware/efi" ]]; then
+    grub-install --efi-directory=/boot $B_DRIVE
+else; grub-install $B_DRIVE
+fi
+
+#grub-install
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
