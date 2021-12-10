@@ -6,9 +6,10 @@ systemctl enable NetworkManager
 
 echo "-- GRUB EFI Bootloader Install&Check--"
 echo "--------------------------------------"
-if [[ -d "/sys/firmware/efi" ]]; then
-    grub-install --efi-directory=/boot ${DISK}
-fi
+#if [[ -d "/sys/firmware/efi" ]]; then
+#    grub-install --efi-directory=/boot ${DISK}
+#fi
+grub-install /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -18,7 +19,7 @@ passwd
 
 sed -i 's/#es_US.UTF-8/es_US.UTF-8/' /etc/locale.gen
 sed -i 's/#es_US ISO-8859-1/es_US ISO-8859-1/' /etc/locale.gen
-Locale-gen
+locale-gen
 
 echo "LANG=en-US.UTF-8" | cat > /etc/loacle.conf
 
@@ -34,6 +35,6 @@ useradd -mg wheel $USER
 
 echo "Add password for the user:"
 
-sed -i 's/# %wheel	ALL=(ALL) ALL/%wheel     ALL=(ALL) ALL/' > /etc/sudoers
+sed -i 's/# %wheel	ALL=(ALL) ALL/%wheel     ALL=(ALL) ALL/' /etc/sudoers
 
 passwd $USER
