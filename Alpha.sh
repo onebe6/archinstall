@@ -23,5 +23,3 @@ mount /mnt/boot
 pacstrap /mnt base base-devel linux linux-firmware vim nano
 
 genfstab -U /mnt >> /mnt/etc/fstab
-
-exit

@@ -25,5 +25,3 @@ useradd -mg wheel $USER
 echo "Add password for the user:"
 
 passwd $USER
-
-exit
