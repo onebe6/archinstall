@@ -1,5 +1,7 @@
 #! /bin/bash
 
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 lsblk -f
 
 read -p "which drive do you want to partition?: (exemple: /dev/sda/)" DISK
@@ -23,3 +25,5 @@ mount /mnt/boot
 pacstrap /mnt base base-devel linux linux-firmware vim nano
 
 genfstab -U /mnt >> /mnt/etc/fstab
+
+cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
