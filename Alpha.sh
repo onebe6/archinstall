@@ -12,7 +12,7 @@ read -p "which partition is your main partition? (exemple: /dev/sda1)" PARTITION
 
 mkfs.ext4 $PARTITION
 
-mount $PARTITON /mnt
+mount $PARTITION /mnt
 
 read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
 
