@@ -12,9 +12,11 @@ echo "--------------------------------------"
 
 read -p "which is your boot drive? (exemple: /dev/sda) " B_DRIVE
 
-if [[ -d "/sys/firmware/efi" ]]; then
+if [[ -d "/sys/firmware/efi" ]]
+then
     grub-install --efi-directory=/boot $B_DRIVE
-else; grub-install $B_DRIVE
+else
+    grub-install $B_DRIVE
 fi
 
 #grub-install
