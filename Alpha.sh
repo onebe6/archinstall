@@ -26,4 +26,4 @@ pacstrap /mnt base base-devel linux linux-firmware vim nano
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+cp -R ${SCRIPT_DIR} /mnt/root/archinstall
