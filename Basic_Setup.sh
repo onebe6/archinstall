@@ -6,6 +6,11 @@ systemctl enable NetworkManager
 
 grub-install $DISK
 
+echo "-- GRUB EFI Bootloader Install&Check--"
+echo "--------------------------------------"
+if [[ -d "/sys/firmware/efi" ]]; then
+    grub-install --efi-directory=/boot ${DISK}
+fi
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "Add a root password: "
