@@ -8,11 +8,12 @@ lsblk
 
 read -p "which drive do you want to partition?: (exemple: /dev/sda)" DISK
 
-if [[ -d "/sys/firmware/efi" ]] then
-    sgdisk -n 1::+100M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
+if [[ -d "/sys/firmware/efi" ]]
+then
+    sgdisk -n 1::+200M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
     sgdisk -n 2::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
 else
-    sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition
+    sgdisk -n 1::+128M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition
     sgdisk -n 2::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
 fi
 
