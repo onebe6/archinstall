@@ -8,6 +8,11 @@ lsblk
 
 read -p "which drive do you want to partition?: (exemple: /dev/sda)" DISK
 
+# disk prep
+sgdisk -Z ${DISK} # zap all on disk
+sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+
+# creating partitions
 if [[ -d "/sys/firmware/efi" ]]
 then
     sgdisk -n 1::+200M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
