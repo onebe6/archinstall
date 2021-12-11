@@ -34,24 +34,25 @@ fi
 
 lsblk
 
-read -p "which partition is your main partition? (exemple: /dev/sda1)" PARTITION
+#read -p "which partition is your main partition? (exemple: /dev/sda1)" #PARTITION
 
-mkfs.ext4 $PARTITION
+mkfs.ext4 ${DISK}/2 #$PARTITION
 
-mount $PARTITION /mnt
+mount ${DISK}/2 /mnt #$PARTITION /mnt
 
 lsblk
 
-read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
+#read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
 
-if [[ -d "/sys/firmware/efi" ]] then
-    mkfs.vfat -F32 $BOOT
+if [[ -d "/sys/firmware/efi" ]]
+then
+    mkfs.vfat -F32 ${DISK}/1 #$BOOT
     mkdir /mnt/boot
-    mount $BOOT /mnt/boot
+    mount ${DISK}/1 /mnt/boot
 else
-    mkfs.ext4 $BOOT
+    mkfs.ext4 ${DISK}/1 #$BOOT
     mkdir /mnt/boot
-    mount $BOOT /mnt/boot
+    mount ${DISK}/1 /mnt/boot
 fi
 
 #mount -t vfat -L EFIBOOT /mnt/boot/
