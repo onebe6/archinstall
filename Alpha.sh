@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-pacman -S gptfdisk
+pacman -S gptfdisk --noconfirm
 
 lsblk
 

@@ -1,6 +1,6 @@
 #! /bin/bash
 
-pacman -S networkmanager grub efibootmgr os-prober --no-confirm
+pacman -S networkmanager grub efibootmgr os-prober --noconfirm
 
 systemctl enable NetworkManager
 
