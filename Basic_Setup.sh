@@ -1,6 +1,6 @@
 #! /bin/bash
 
-pacman -S networkmanager grub
+pacman -S networkmanager grub efibootmgr os-prober
 
 systemctl enable NetworkManager
 
