@@ -18,9 +18,9 @@ mount $PARTITION /mnt
 
 read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
 
-mkfs.ext4 $BOOT
+mkfs.fat -F32 $BOOT
 mkdir /mnt/boot
-mount /mnt/boot
+mount $BOOT /mnt/boot
 
 pacstrap /mnt base base-devel linux linux-firmware vim nano
 
