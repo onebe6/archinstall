@@ -36,23 +36,23 @@ lsblk
 
 #read -p "which partition is your main partition? (exemple: /dev/sda1)" #PARTITION
 
-mkfs.ext4 ${DISK}/2 #$PARTITION
+mkfs.ext4 ${DISK}2 #$PARTITION
 
-mount ${DISK}/2 /mnt #$PARTITION /mnt
+mount ${DISK}2 /mnt #$PARTITION /mnt
 
-lsblk
+#lsblk
 
 #read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
 
 if [[ -d "/sys/firmware/efi" ]]
 then
-    mkfs.vfat -F32 ${DISK}/1 #$BOOT
+    mkfs.vfat -F32 ${DISK}1 #$BOOT
     mkdir /mnt/boot
-    mount ${DISK}/1 /mnt/boot
+    mount ${DISK}1 /mnt/boot
 else
-    mkfs.ext4 ${DISK}/1 #$BOOT
+    mkfs.ext4 ${DISK}1 #$BOOT
     mkdir /mnt/boot
-    mount ${DISK}/1 /mnt/boot
+    mount ${DISK}1 /mnt/boot
 fi
 
 #mount -t vfat -L EFIBOOT /mnt/boot/
