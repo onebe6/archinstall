@@ -10,13 +10,15 @@ echo "--------------------------------------"
 #    grub-install --efi-directory=/boot ${DISK}
 #fi
 
+sed -i 's/uk/hu/' /etc/vconsole.conf
+
 read -p "which is your boot drive? (exemple: /dev/sda) " B_DRIVE
 
 if [[ -d "/sys/firmware/efi" ]]
 then
     grub-install --target=x86_64-efi  --efi-directory=/boot --bootloader-id=GRUB ${B_DRIVE}
-#else
-#    grub-install --target=i386-pc ${B_DRIVE}
+else
+    grub-install --boot-directory=/boot ${B_DRIVE}
 fi
 
 #grub-install
@@ -45,6 +47,6 @@ useradd -mg wheel $USER
 
 echo "Add password for the user:"
 
-sed -i 's/# %wheel	ALL=(ALL) ALL/%wheel     ALL=(ALL) ALL/' /etc/sudoers
+sed -i 's|# %wheel	ALL=(ALL) ALL| %wheel	ALL=(ALL) ALL \n Defaults !tty_ticets|' /etc/sudoers
 
 passwd $USER
