@@ -20,28 +20,19 @@ then
     sgdisk -n 1::+200M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
     sgdisk -n 2::-0 --typecode=2:8300 --change-name=2:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
 else
+    echo "********************************************************************************************"
+    echo "*You have a legacy system. You have to create a DOS partition and create a new 128M patition*"
+    echo "*make it bootable by pressing B and write it and a new partition and write it****************"
+    echo "*********************************************************************************************"
+    read -p "Press any button if you have read the instuction above" ANY
     cfdisk ${DISK}
-    #sgdisk -n 1::+128M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition
-    #sgdisk -n 2::-0 --typecode=2:8300 --change-name=2:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
 fi
 
-#mkfs.vfat -F32 -n "EFIBOOT" "${DISK}p2"
-#mkfs.ext4 -L "ROOT" "${DISK}p3" -f
-#mount -t ext4 "${DISK}p3" /mnt
-
-#cfdisk $DISK
-
 lsblk
-
-#read -p "which partition is your main partition? (exemple: /dev/sda1)" #PARTITION
 
 mkfs.ext4 ${DISK}2 #$PARTITION
 
 mount ${DISK}2 /mnt #$PARTITION /mnt
-
-#lsblk
-
-#read -p "which partition is your boot partition? (exemple: /dev/sda1)" BOOT
 
 if [[ -d "/sys/firmware/efi" ]]
 then
@@ -53,8 +44,6 @@ else
     mkdir /mnt/boot
     mount ${DISK}1 /mnt/boot
 fi
-
-#mount -t vfat -L EFIBOOT /mnt/boot/
 
 pacstrap /mnt base base-devel linux linux-firmware vim nano
 

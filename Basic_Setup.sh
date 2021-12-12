@@ -41,10 +41,21 @@ read -p "Add a username:" USER
 
 useradd -mg wheel $USER
 
-echo "Add password for the user:"
+passwd $USER
 
-# Add sudo no password rights
-sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+nc=$(grep -c ^processor /proc/cpuinfo)
+echo "You have " $nc" cores."
+echo "-------------------------------------------------"
+echo "Changing the makeflags for "$nc" cores."
+TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
+if [[  $TOTALMEM -gt 8000000 ]]; then
+sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
+echo "Changing the compression settings for "$nc" cores."
+sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
+fi
+
+# Add sudo rights
+sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 #Add parallel downloading
 sed -i 's/^#Para/Para/' /etc/pacman.conf
@@ -53,4 +64,32 @@ sed -i 's/^#Para/Para/' /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
 
-passwd $USER
+#
+# determine processor type and install microcode
+#
+proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
+case "$proc_type" in
+	GenuineIntel)
+		print "Installing Intel microcode"
+		pacman -S --noconfirm intel-ucode
+		proc_ucode=intel-ucode.img
+		;;
+	AuthenticAMD)
+		print "Installing AMD microcode"
+		pacman -S --noconfirm amd-ucode
+		proc_ucode=amd-ucode.img
+		;;
+esac
+
+# Graphics Drivers find and install
+if lspci | grep -E "NVIDIA|GeForce"; then
+    pacman -S nvidia --noconfirm --needed
+	nvidia-xconfig
+elif lspci | grep -E "Radeon"; then
+    pacman -S xf86-video-amdgpu --noconfirm --needed
+elif lspci | grep -E "Integrated Graphics Controller"; then
+    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
+fi
+
+#cp /mnt/root/archinstall/GUI_AND_PACKAGES.sh /home/$USER/GUI_AND_PACKAGES.sh
+#cp /mnt/root/archinstall/PKGS_BASIC.txt /home/$USER/PKGS_BASIC.txt
