@@ -91,5 +91,14 @@ elif lspci | grep -E "Integrated Graphics Controller"; then
     pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
 fi
 
-cp /mnt/root/archinstall/GUI_AND_PACKAGES.sh /home/$USER/GUI_AND_PACKAGES.sh
-cp /mnt/root/archinstall/PKGS_BASIC.txt /home/$USER/PKGS_BASIC.txt
+mkdir /home/$USER/Music
+mkdir /home/$USER/Picturs
+mkdir /home/$USER/Downloads
+mkdir /home/$USER/Templates
+mkdir /home/$USER/Videos
+mkdir /home/$USER/Public
+
+cd /home/$USER/Downloads
+git clone https://github.com/onebe6/guinstaller
+#cd guinstaller
+#bash GUI_AND_PACKAGES.sh
