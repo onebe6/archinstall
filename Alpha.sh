@@ -52,9 +52,9 @@ then
     mkdir /mnt/boot
     mount ${DISK}1 /mnt/boot
 else
-    mkfs.ext4 ${DISK}1 #$BOOT
+    #mkfs.ext4 ${DISK}1 #$BOOT
     mkdir /mnt/boot
-    mount ${DISK}1 /mnt/boot
+   # mount ${DISK}1 /mnt/boot
 fi
 
 #mount -t vfat -L EFIBOOT /mnt/boot/
