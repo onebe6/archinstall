@@ -55,6 +55,13 @@ else
     mount ${DISK}1 /mnt/boot
 fi
 
+echo "--------------------------------------"
+echo "--GRUB BIOS Bootloader Install&Check--"
+echo "--------------------------------------"
+if [[ ! -d "/sys/firmware/efi" ]]; then
+    grub-install --boot-directory=/mnt/boot ${DISK}
+fi
+
 #mount -t vfat -L EFIBOOT /mnt/boot/
 
 pacstrap /mnt base base-devel linux linux-firmware vim nano
