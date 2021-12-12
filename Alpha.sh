@@ -2,6 +2,8 @@
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
+
 pacman -S gptfdisk --noconfirm
 
 lsblk
@@ -55,13 +57,6 @@ else
     mount ${DISK}1 /mnt/boot
 fi
 
-echo "--------------------------------------"
-echo "--GRUB BIOS Bootloader Install&Check--"
-echo "--------------------------------------"
-if [[ ! -d "/sys/firmware/efi" ]]; then
-    grub-install --boot-directory=/mnt/boot ${DISK}
-fi
-
 #mount -t vfat -L EFIBOOT /mnt/boot/
 
 pacstrap /mnt base base-devel linux linux-firmware vim nano
@@ -69,3 +64,11 @@ pacstrap /mnt base base-devel linux linux-firmware vim nano
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cp -R ${SCRIPT_DIR} /mnt/root/archinstall
+cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+
+echo "--------------------------------------"
+echo "--GRUB BIOS Bootloader Install&Check--"
+echo "--------------------------------------"
+if [[ ! -d "/sys/firmware/efi" ]]; then
+    grub-install --boot-directory=/mnt/boot ${DISK}
+fi
