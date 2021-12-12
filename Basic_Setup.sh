@@ -6,20 +6,18 @@ systemctl enable NetworkManager
 
 echo "-- GRUB EFI Bootloader Install&Check--"
 echo "--------------------------------------"
-#if [[ -d "/sys/firmware/efi" ]]; then
-#    grub-install --efi-directory=/boot ${DISK}
-#fi
 
-sed -i 's/uk/hu/' /etc/vconsole.conf
+echo "KEYMAP=hu" | cat > /etc/vconsole.conf
 
 read -p "which is your boot drive? (exemple: /dev/sda) " B_DRIVE
 
 if [[ -d "/sys/firmware/efi" ]]
 then
     grub-install --target=x86_64-efi  --efi-directory=/boot --bootloader-id=GRUB ${B_DRIVE}
+else
+    grub-install ${B_DRIVE}
 fi
 
-#grub-install
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -45,6 +43,14 @@ useradd -mg wheel $USER
 
 echo "Add password for the user:"
 
-sed -i 's|# %wheel	ALL=(ALL) ALL| %wheel	ALL=(ALL) ALL \n Defaults !tty_ticets|' /etc/sudoers
+# Add sudo no password rights
+sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+
+#Add parallel downloading
+sed -i 's/^#Para/Para/' /etc/pacman.conf
+
+#Enable multilib
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+pacman -Sy --noconfirm
 
 passwd $USER
