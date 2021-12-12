@@ -101,6 +101,4 @@ mkdir /home/$USER/Public
 cd /home/$USER/Downloads
 git clone https://github.com/onebe6/guinstaller
 
-chown -R $USER:$USER /home/$USER
-#cd guinstaller
-#bash GUI_AND_PACKAGES.sh
+chown -R $USER /home/$USER
