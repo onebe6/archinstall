@@ -1,6 +1,6 @@
 #! /bin/bash
 
-pacman -S networkmanager grub efibootmgr os-prober --noconfirm
+pacman -S networkmanager grub efibootmgr os-prober git --noconfirm
 
 systemctl enable NetworkManager
 
@@ -100,5 +100,7 @@ mkdir /home/$USER/Public
 
 cd /home/$USER/Downloads
 git clone https://github.com/onebe6/guinstaller
+
+chown -R $USER:$USER /home/$USER
 #cd guinstaller
 #bash GUI_AND_PACKAGES.sh
