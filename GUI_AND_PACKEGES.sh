@@ -8,5 +8,7 @@ for PKG in $(cat PKGS_BASIC.txt); do
     sudo pacman -S $PKG --noconfirm --needed
 done
 
+sudo systemctl enable lightdm.sevice
+
 # Remove no password rights
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
