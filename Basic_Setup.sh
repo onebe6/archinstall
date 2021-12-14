@@ -9,6 +9,8 @@ echo "--------------------------------------"
 
 echo "KEYMAP=hu" | cat > /etc/vconsole.conf
 
+lsblk
+
 read -p "which is your boot drive? (exemple: /dev/sda) " B_DRIVE
 
 if [[ -d "/sys/firmware/efi" ]]
@@ -39,7 +41,7 @@ ln -sf /usr/share/zoneinfo/Europe/Budapest etc/localtime
 
 read -p "Add a username:" USER
 
-useradd -mg wheel $USER
+useradd -mgU wheel $USER
 
 passwd $USER
 
@@ -104,4 +106,4 @@ git clone https://github.com/onebe6/guinstaller
 chown -R $USER guinstaller
 chmod -R 775 guinstaller
 
-chown -R $USER /home/$USER
+chown -R $USER:$USER /home/$USER
