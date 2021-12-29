@@ -41,7 +41,9 @@ ln -sf /usr/share/zoneinfo/Europe/Budapest etc/localtime
 
 read -p "Add a username:" USER
 
-sudo useradd -g $USER -G wheel $USER
+groupadd $USER
+
+useradd -gm $USER -G wheel $USER
 
 passwd $USER
 
