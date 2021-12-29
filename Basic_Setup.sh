@@ -94,7 +94,7 @@ elif lspci | grep -E "Integrated Graphics Controller"; then
 fi
 
 mkdir /home/$USER/Music
-mkdir /home/$USER/Picturs
+mkdir /home/$USER/Pictures
 mkdir /home/$USER/Downloads
 mkdir /home/$USER/Templates
 mkdir /home/$USER/Videos
