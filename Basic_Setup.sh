@@ -39,13 +39,11 @@ echo $HOSTNAME | cat > /etc/hostname
 
 ln -sf /usr/share/zoneinfo/Europe/Budapest etc/localtime
 
+echo "KEYMAP=hu" | cat > /etc/vconsole.conf
+
 read -p "Add a username:" USER
 
-groupadd $USER
-
-useradd -gm $USER -G wheel $USER
-
-passwd $USER
+groupadd $USER && useradd -mg $USER -G wheel $USER && passwd $USER
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo "You have " $nc" cores."
